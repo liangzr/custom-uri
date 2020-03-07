@@ -1,0 +1,56 @@
+.app-container {
+  height: 100vh;
+  display: flex;
+
+  main {
+    background: rgba(224, 255, 255, 0.2);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    transition: all 0.6s ease;
+
+    .header {
+      padding: 20px;
+      z-index: 1;
+      
+      textarea {
+        transition: height 0.3s ease-out;
+        max-height: 94px;
+      }
+    }
+    
+    .cover {
+      border-color: rgba(0, 0, 0, 0.09);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+    }
+
+    .slim {
+      display: flex;
+      align-items: center;
+      
+      h3 {
+        font-size: 14px;
+        line-height: unset;
+        flex-shrink: 0;
+        margin-bottom: 0;
+        margin-right: 12px;
+      }
+    }
+
+    .parser-tree-wrapper {
+      padding: 20px;
+      padding-top: 0;
+      flex: 1;
+      overflow: auto;
+    }
+  }
+
+  aside {
+    padding-top: 80px;
+    background: #41b883;
+    color: white;
+    width: 40%;
+  }
+}

@@ -1,0 +1,13 @@
+@import "../parser.less";
+
+@prefix: dict-parser;
+
+.@{prefix}-wrapper {
+	.parser-wrapper();
+	.parsed-highlight();
+
+	&::after {
+		.badge();
+		content: 'Dict';
+	}
+}

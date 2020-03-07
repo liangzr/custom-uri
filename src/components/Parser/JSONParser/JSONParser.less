@@ -1,0 +1,16 @@
+@import "../parser.less";
+
+@prefix: json-parser;
+
+.@{prefix}-wrapper {
+	.parser-wrapper();
+
+	&::after {
+		.badge();
+		content: 'JSON';
+  }
+  
+  .editor {
+    font-family: monospace;
+  }
+}

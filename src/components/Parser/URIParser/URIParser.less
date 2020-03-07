@@ -1,0 +1,19 @@
+@import "../parser.less";
+@prefix: uri-parser;
+
+.@{prefix}-wrapper {
+	.parser-wrapper();
+	.parsed-highlight();
+
+	.@{prefix}-item {
+		div:first-child {
+			justify-content: flex-end;
+		}
+	}
+
+
+	&::after {
+		.badge();
+		content: 'URI';
+	}
+}
