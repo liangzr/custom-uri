@@ -4,6 +4,7 @@ import x from 'classnames';
 import { useScroll } from 'react-use';
 import ParserResovler from '../ParserResovler';
 import UsePanel from '../UsePanel';
+import Guide from '../Guide';
 import './App.less';
 
 function usePrevious(lazyed) {
@@ -48,7 +49,9 @@ function App() {
           />
         </div>
         <div className="parser-tree-wrapper" ref={parserTree}>
-          <ParserResovler value={uri} onChange={setURI} />
+          {uri
+            ? <ParserResovler value={uri} onChange={setURI} />
+            : <Guide /> }
         </div>
       </main>
       <aside>
