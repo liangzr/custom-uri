@@ -55,7 +55,6 @@ export default ({
       />
       <Button
         type="link"
-        className="save"
         icon="save-fill"
         onClick={() => setVisible(true)}
       >
@@ -69,6 +68,7 @@ export default ({
       >
         <div className="link-desc">{href}</div>
         <Input
+          autoFocus
           required
           placeholder="输入链接简要描述，方便记忆"
           value={label}

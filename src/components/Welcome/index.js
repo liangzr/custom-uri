@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   Input, Affix, Icon, message, Spin, List, Button, Popconfirm, Card,
 } from 'antd';
@@ -35,12 +35,19 @@ export default ({
   onChange = noop,
 }) => {
   const container = useRef(null);
-  const [randomSignal, setRandomSignal] = useState('');
+  const [recents, setRecents] = useState([]);
   const { y } = useScroll(container);
-  const recents = useAsync(async () => {
+
+  const updateRecents = async () => {
     const ret = await db.get('base', 'recents');
-    return ret;
-  }, [mode, randomSignal]);
+    setRecents(ret.reverse());
+  };
+
+  useEffect(() => {
+    if (!mode) {
+      updateRecents();
+    }
+  }, [mode]);
 
   const handleChange = (val) => {
     onChange(val, breakChange(value, val));
@@ -58,43 +65,40 @@ export default ({
     db.get('base', 'recents')
       .then((data) => db.set('base', 'recents', data.filter((i) => i.id !== id)))
       .finally(() => {
-        setRandomSignal(Math.random());
+        updateRecents();
       });
   };
 
-  const renderRecents = () => {
-    if (recents.loading) return <Spin />;
-    if (!recents.value) return null;
-
-    const list = [...recents.value];
-
-    return (
-      <QueueAnim type={['right', 'left']} leaveReverse>
-        {list.reverse().map((item) => (
-          <Card key={item.id} hoverable>
-            <List.Item
-              actions={[
-                <a href="#" onClick={() => onChange(item.value, true)}>使用</a>,
-                <Popconfirm
-                  title="删除不可恢复，确定吗？"
-                  onConfirm={() => handleDelete(item.id)}
-                  okText="确定"
-                  cancelText="取消"
-                >
-                  <a href="#">删除</a>
-                </Popconfirm>,
-              ]}
-            >
-              <List.Item.Meta
-                title={item.label}
-                description={item.value}
-              />
-            </List.Item>
-          </Card>
-        ))}
-      </QueueAnim>
-    );
-  };
+  const renderRecents = () => (
+    <QueueAnim
+      type={['right', 'left']}
+      duration={[450, 380]}
+      leaveReverse
+    >
+      {recents.map((item) => (
+        <Card key={item.id} hoverable>
+          <List.Item
+            actions={[
+              <a href="#" onClick={() => onChange(item.value, true)}>使用</a>,
+              <Popconfirm
+                title="删除不可恢复，确定吗？"
+                onConfirm={() => handleDelete(item.id)}
+                okText="确定"
+                cancelText="取消"
+              >
+                <a href="#">删除</a>
+              </Popconfirm>,
+            ]}
+          >
+            <List.Item.Meta
+              title={item.label}
+              description={item.value}
+            />
+          </List.Item>
+        </Card>
+      ))}
+    </QueueAnim>
+  );
 
   return (
     <div className="welcome-container" ref={container}>
@@ -113,7 +117,7 @@ export default ({
             </div>
           </div>
         </Affix>
-        {Array.isArray(recents.value) && recents.value.length > 0
+        {recents.length > 0
         && (
         <List className="recent" header="收藏链接">
           {renderRecents()}
