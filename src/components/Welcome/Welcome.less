@@ -1,0 +1,112 @@
+.welcome-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-image: url('../../assets/bg.svg');
+  background-position: center;
+  background-size: 100% cover;
+  overflow: auto;
+
+  .content {
+    max-width: 750px;
+    margin: auto;
+
+    h1 {
+      margin-top: 110px;
+      margin-bottom: 100px;
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      font-size: 60px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .input {
+      position: relative;
+    }
+
+    .go {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: -100px;
+      width: 50px;
+      height: 50px;
+      background: #41b883;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      animation: blink 5s infinite ease;
+      
+      &:active {
+        filter: saturate(1.5);
+      }
+
+      &:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        animation: unset;
+      }
+    }
+
+    textarea {
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid #a7a7a7;
+      box-shadow: none;
+      border-radius: 0;
+      transition: all 0.2s ease-out;
+      font-size: 20px;
+
+      &:hover {
+        border-bottom: 3px solid darkgrey;
+      }
+
+      &:focus {
+        border-bottom: 3px solid #41b883;
+      }
+
+      &::placeholder {
+        font-weight: 700;
+        text-align: center;
+      }
+    }
+
+    .ant-affix {
+      padding-top: 20px;
+      top: 0 !important;
+      background-color: #f0f3f6;
+
+      textarea {
+        background-color: #f0f3f6;
+      }
+    }
+    
+    .recent {
+      margin-top: 30px;
+      margin-bottom: 50px;
+      
+      .ant-card-body {
+        padding: 0 20px !important;
+      }
+      
+      .ant-list-item-meta-description {
+        font-size: 12px;
+        word-break: break-all;
+      }
+    }
+  }
+}
+
+@keyframes blink {
+  from, to {
+    filter: sepia(0);
+  }
+  50% {
+    filter: sepia(0.5);
+  }
+}

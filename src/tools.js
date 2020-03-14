@@ -1,6 +1,9 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-restricted-syntax */
 import URL from 'url';
+import crypto from 'crypto';
+
+export const genUUID = () => crypto.randomBytes(20).toString('hex');
 
 export const safeParseJSON = (str) => {
   try {

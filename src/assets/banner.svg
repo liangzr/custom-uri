@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1440px" height="686px" viewBox="0 0 1440 686" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Banner</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="首页">
+            <g id="Banner" transform="translate(-41.000000, -321.544156)">
+                <path d="M41,321.544156 L1481,321.544156 L1481,1007.54416 C1161.90808,1007.54416 921.90808,1007.54416 761,1007.54416 C600.09192,1007.54416 360.09192,1007.54416 41,1007.54416 L41,321.544156 Z" id="Rectangle" fill="#2F54EB"></path>
+                <g id="shape" transform="translate(0.000000, 489.544156)">
+                    <path d="M13,139 L69,139 C70.1045695,139 71,139.895431 71,141 L71,197 C71,198.104569 70.1045695,199 69,199 L13,199 C11.8954305,199 11,198.104569 11,197 L11,141 C11,139.895431 11.8954305,139 13,139 Z" id="Rectangle-6" fill="#FFFFFF" opacity="0.3" transform="translate(41.000000, 169.000000) rotate(-27.000000) translate(-41.000000, -169.000000) "></path>
+                    <polygon id="Polygon" stroke="#FFFFFF" stroke-width="2" opacity="0.3" transform="translate(139.000000, 17.500000) rotate(45.000000) translate(-139.000000, -17.500000) " points="139 6 152 29 126 29"></polygon>
+                    <polygon id="Polygon" stroke="#FFFFFF" opacity="0.3" transform="translate(180.000000, 446.000000) rotate(-67.000000) translate(-180.000000, -446.000000) " points="180 439 188 453 172 453"></polygon>
+                    <circle id="Oval" stroke="#FFFFFF" stroke-width="3" fill="#FFFFFF" opacity="0.3" cx="256" cy="357" r="10"></circle>
+                    <path d="M1297,380 L1235,380 C1234.72386,380 1234.47386,380.111929 1234.29289,380.292893 C1234.11193,380.473858 1234,380.723858 1234,381 L1234,443 C1234,443.276142 1234.11193,443.526142 1234.29289,443.707107 C1234.47386,443.888071 1234.72386,444 1235,444 L1297,444 C1297.27614,444 1297.52614,443.888071 1297.70711,443.707107 C1297.88807,443.526142 1298,443.276142 1298,443 L1298,381 C1298,380.723858 1297.88807,380.473858 1297.70711,380.292893 C1297.52614,380.111929 1297.27614,380 1297,380 Z" id="Rectangle-6" stroke="#FFFFFF" stroke-width="2" opacity="0.3" transform="translate(1266.000000, 412.000000) rotate(-45.000000) translate(-1266.000000, -412.000000) "></path>
+                    <circle id="Oval" stroke="#FFFFFF" stroke-width="3" fill="#FFFFFF" opacity="0.4" cx="1374" cy="82" r="13"></circle>
+                    <circle id="Oval" stroke="#FFFFFF" stroke-width="2" opacity="0.4" cx="1430" cy="294" r="8"></circle>
+                </g>
+                <g id="logo-img" transform="translate(834.500000, 161.044156) scale(-1, 1) rotate(135.000000) translate(-834.500000, -161.044156) translate(710.000000, 58.544156)"></g>
+            </g>
+        </g>
+    </g>
+</svg>
