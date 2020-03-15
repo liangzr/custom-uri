@@ -34,7 +34,7 @@ const JSONParser = ({ value, onChange }) => {
       <Card hoverable className={x('json-parser-wrapper')}>
         <MonacoEditor
           height="400"
-          language=""
+          language="json"
           theme="vs"
           value={cache}
           options={settings}

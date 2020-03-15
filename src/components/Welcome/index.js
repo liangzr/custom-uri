@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useRef, useState, useEffect } from 'react';
 import {
-  Input, Affix, Icon, message, Spin, List, Button, Popconfirm, Card,
+  Input, Affix, Icon, message, List, Popconfirm, Card,
 } from 'antd';
 import QueueAnim from 'rc-queue-anim';
-import { useScroll, useAsync } from 'react-use';
+import { useScroll } from 'react-use';
 
 import { noop } from '../../tools';
 import * as db from '../../db';

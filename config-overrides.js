@@ -3,6 +3,8 @@ const {
   fixBabelImports,
   addLessLoader,
   addWebpackPlugin,
+  disableChunk,
+  addBundleVisualizer,
 } = require('customize-cra');
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
@@ -13,6 +15,15 @@ module.exports = override(
     libraryDirectory: 'es',
     style: 'css',
   }),
+  addBundleVisualizer(),
+  // disable source-map
+  (config) => {
+    config.devtool = '';
+    return config;
+  },
+  disableChunk(),
   addLessLoader(),
-  addWebpackPlugin(new MonacoWebpackPlugin()),
+  addWebpackPlugin(new MonacoWebpackPlugin({
+    languages: ['json'],
+  })),
 );
