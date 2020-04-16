@@ -27,6 +27,7 @@
     "prebuild": "react-app-rewired build",
     "build": "basement-build dist2hash build -d 8 -o ./dist",
     "test": "react-app-rewired test",
+    "fix": "eslint src --fix",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

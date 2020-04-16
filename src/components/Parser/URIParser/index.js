@@ -36,9 +36,9 @@ const URI = React.memo(({ value, onChange }) => {
     const disabled = (isHostKey || isAuthKey) && !hasProtocol;
 
     if (disabled) {
-      placeholder = 'protocol 不可为空';
+      placeholder = 'protocol 为空不可编辑';
     } else if (!hasHost && isAuthKey) {
-      placeholder = 'host 不可为空';
+      placeholder = 'host 为空不可编辑';
     }
 
     if (isSearchKey || isHashKey) {

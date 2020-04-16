@@ -26,14 +26,14 @@ const DictParser = React.memo(({
     const target = [...dictList[index]];
     const modifyKey = type === 'key' ? 0 : 1;
     target[modifyKey] = val;
-    nextList[index] = target;
+    nextList[index] = type === 'all' ? [] : target;
 
     onChange(formatter(nextList));
   };
 
   const handleAddDict = () => {
     const nextList = [...dictList];
-    nextList.push(['key', 'value']);
+    nextList.push(['key', '']);
 
     onChange(formatter(nextList));
   };
@@ -51,7 +51,7 @@ const DictParser = React.memo(({
     }
     return (
 
-      <div key={index} className="dict-parser-item">
+      <Row key={index} className="dict-parser-item">
         <Col offset={1} span={5}>
           <Input
             value={key}
@@ -69,7 +69,10 @@ const DictParser = React.memo(({
             addonAfter={addonAfter}
           />
         </Col>
-      </div>
+        <div className="delete" title="删除" onClick={() => handleChange('all', index)}>
+          <span role="img" aria-label="delete">🛑</span>
+        </div>
+      </Row>
     );
   };
 
@@ -85,8 +88,8 @@ const DictParser = React.memo(({
   return (
     <div>
       <Card hoverable className={x('dict-parser-wrapper', className)}>
+        {dictList.map(renderItem)}
         <Row>
-          {dictList.map(renderItem)}
           <Col offset={1} span={23} style={{ textAlign: 'left' }}>
             <Button type="link" onClick={handleAddDict}>添加参数</Button>
           </Col>
