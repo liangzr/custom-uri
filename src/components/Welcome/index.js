@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useRef, useState, useEffect } from 'react';
 import {
-  Input, Affix, Icon, message, List, Popconfirm, Card, Tooltip, Button,
+  Input, Affix, Icon, message, List, Popconfirm, Card, Tooltip, Button, Row, Col,
 } from 'antd';
 import QueueAnim from 'rc-queue-anim';
 import { useScroll } from 'react-use';
@@ -37,6 +37,7 @@ export default ({
 }) => {
   const container = useRef(null);
   const [recents, setRecents] = useState([]);
+  const [filterString, setFilterString] = useState('');
   const { y } = useScroll(container);
 
   const updateRecents = async () => {
@@ -103,37 +104,56 @@ export default ({
   const renderRecents = () => (
     <QueueAnim
       type={['right', 'left']}
-      duration={[450, 380]}
+      duration={[250, 180]}
       leaveReverse
     >
-      {recents.map((item, index) => (
-        <Card key={item.id} hoverable>
-          <List.Item
-            actions={[
-              <a href="#" onClick={() => onChange(item.value, true)}>使用</a>,
-              <Popconfirm
-                title="删除不可恢复，确定吗？"
-                onConfirm={() => handleDelete(item.id)}
-                okText="确定"
-                cancelText="取消"
-              >
-                <a href="#">删除</a>
-              </Popconfirm>,
-            ]}
-          >
-            <List.Item.Meta
-              title={(
-                <div>
-                  <span>{item.tags ? item.tags.sort().join(' | ') : ''}</span>
-                  <Button icon="edit" type="link" onClick={() => onChangeTitle(index)} />
-                </div>
+      {recents
+        .filter((r) => (!filterString || r.tags.some((t) => t.toLowerCase().includes(filterString.toLowerCase()))))
+        .map((item, index) => (
+          <Card key={item.id} hoverable>
+            <List.Item
+              actions={[
+                <a href="#" onClick={() => onChange(item.value, true)}>使用</a>,
+                <Popconfirm
+                  title="删除不可恢复，确定吗？"
+                  onConfirm={() => handleDelete(item.id)}
+                  okText="确定"
+                  cancelText="取消"
+                >
+                  <a href="#">删除</a>
+                </Popconfirm>,
+              ]}
+            >
+              <List.Item.Meta
+                title={(
+                  <div>
+                    <span>{item.tags ? item.tags.sort().join(' | ') : ''}</span>
+                    <Button icon="edit" type="link" onClick={() => onChangeTitle(index)} />
+                  </div>
               )}
-              description={item.value}
-            />
-          </List.Item>
-        </Card>
-      ))}
+                description={item.value}
+              />
+            </List.Item>
+          </Card>
+        ))}
     </QueueAnim>
+  );
+
+  const renderRecentHeader = () => (
+    <Row style={{
+      display: 'flex',
+      alignItems: 'flex-end',
+    }}
+    >
+      <Col span={10}>收藏链接</Col>
+      <Col span={14} style={{ textAlign: 'right' }}>
+        <Input.Search
+          placeholder="过滤标签"
+          onChange={(e) => setFilterString(e.target.value)}
+          style={{ width: 200 }}
+        />
+      </Col>
+    </Row>
   );
 
   return (
@@ -157,7 +177,7 @@ export default ({
         </Affix>
         {recents.length > 0
         && (
-        <List className="recent" header="收藏链接">
+        <List className="recent" header={renderRecentHeader()}>
           {renderRecents()}
         </List>
         )}
