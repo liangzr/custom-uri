@@ -10,8 +10,8 @@ import ParserResovler from '../../ParserResovler';
 import './URIParser.less';
 
 const URI = React.memo(({ value, onChange }) => {
-  const [nextKey, setNextKey] = useState('');
   const uri = parseURI(value);
+  const [nextKey, setNextKey] = useState(uri.query ? 'query' : '');
 
   const handleChange = (key, val) => {
     const nextURI = { ...uri };
