@@ -124,7 +124,7 @@ export default ({
             <List.Item.Meta
               title={(
                 <div>
-                  <span>{item.tags ? item.tags.join(' | ') : ''}</span>
+                  <span>{item.tags ? item.tags.sort().join(' | ') : ''}</span>
                   <Button icon="edit" type="link" onClick={() => onChangeTitle(index)} />
                 </div>
               )}
