@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useKeyPress, useKey } from 'react-use';
 import x from 'classnames';
-import { Icon } from 'antd';
-import ParserResovler from '../ParserResovler';
+import { Icon, message } from 'antd';
+import ParserResovler, { hasCorrespondingParser } from '../ParserResovler';
 import UsePanel from '../UsePanel';
 import Welcome from '../Welcome';
 import './App.less';
@@ -14,7 +14,11 @@ function App() {
   const [metaKeyPressed] = useKeyPress('Meta');
   useKey(',', () => {
     if (shiftKeyPressed && metaKeyPressed) {
-      setEditMode(!editMode);
+      if (hasCorrespondingParser(uri)) {
+        setEditMode(!editMode);
+      } else {
+        message.warn('无法解析当前 URI');
+      }
     }
   }, {}, [shiftKeyPressed, metaKeyPressed, editMode]);
 

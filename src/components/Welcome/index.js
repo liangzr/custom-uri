@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useRef, useState, useEffect } from 'react';
 import {
-  Input, Affix, Icon, message, List, Popconfirm, Card,
+  Input, Affix, Icon, message, List, Popconfirm, Card, Tooltip,
 } from 'antd';
 import QueueAnim from 'rc-queue-anim';
 import { useScroll } from 'react-use';
@@ -57,7 +57,7 @@ export default ({
     if (hasCorrespondingParser(value)) {
       onChange(value, true);
     } else {
-      message.warn('没有对应的解析器');
+      message.warn('无法解析当前 URI');
     }
   };
 
@@ -112,9 +112,11 @@ export default ({
               autoSize
               onChange={(e) => handleChange(e.target.value)}
             />
-            <div className="go" onClick={handleEdit}>
-              <Icon type="arrow-right" />
-            </div>
+            <Tooltip placement="top" title="Shift + Meta + Comma 切换" mouseEnterDelay="0.8">
+              <div className="go" onClick={handleEdit}>
+                <Icon type="arrow-right" />
+              </div>
+            </Tooltip>
           </div>
         </Affix>
         {recents.length > 0
