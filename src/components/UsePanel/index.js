@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDebounce } from 'react-use';
+import copy from 'copy-to-clipboard';
 import {
   Input, Button, message, Modal,
 } from 'antd';
@@ -32,7 +33,7 @@ export default ({
       message.warn('链接描述不可为空哦，给它起个名字吧！');
     } else {
       db.get('base', 'recents')
-        .then((recents) => db.set('base', 'recents', recents.concat({
+        .then((recents = []) => db.set('base', 'recents', recents.concat({
           label,
           value: href,
           id: genUUID(),
@@ -42,6 +43,11 @@ export default ({
           setVisible(false);
         });
     }
+  };
+
+  const handleCopy = () => {
+    copy(href);
+    message.success('已复制');
   };
 
   return (
@@ -59,6 +65,13 @@ export default ({
         onClick={() => setVisible(true)}
       >
         保存链接
+      </Button>
+      <Button
+        type="link"
+        icon="copy"
+        onClick={handleCopy}
+      >
+        复制链接
       </Button>
       <Modal
         title="保存链接"
