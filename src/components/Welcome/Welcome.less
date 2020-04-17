@@ -24,6 +24,30 @@
 
     .input {
       position: relative;
+
+      textarea {
+        background: transparent;
+        border: none;
+        border-bottom: 3px solid #a7a7a7;
+        box-shadow: none;
+        border-radius: 0;
+        transition: all 0.2s ease-out;
+        font-size: 20px;
+
+        &:hover {
+          border-bottom: 3px solid darkgrey;
+        }
+
+        &:focus {
+          border-bottom: 3px solid #41b883;
+        }
+
+        &::placeholder {
+          font-weight: 700;
+          text-align: center;
+        }
+      }
+
     }
 
     .go {
@@ -42,7 +66,7 @@
       font-weight: 700;
       transition: all 0.3s ease;
       animation: blink 5s infinite ease;
-      
+
       &:active {
         filter: saturate(1.5);
       }
@@ -50,29 +74,6 @@
       &:hover {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         animation: unset;
-      }
-    }
-
-    textarea {
-      background: transparent;
-      border: none;
-      border-bottom: 3px solid #a7a7a7;
-      box-shadow: none;
-      border-radius: 0;
-      transition: all 0.2s ease-out;
-      font-size: 20px;
-
-      &:hover {
-        border-bottom: 3px solid darkgrey;
-      }
-
-      &:focus {
-        border-bottom: 3px solid #41b883;
-      }
-
-      &::placeholder {
-        font-weight: 700;
-        text-align: center;
       }
     }
 
@@ -85,27 +86,53 @@
         background-color: #f0f3f6;
       }
     }
-    
+
     .recent {
       margin-top: 30px;
       margin-bottom: 50px;
-      
+
       .ant-card-body {
         padding: 0 20px !important;
       }
-      
+
       .ant-list-item-meta-description {
         font-size: 12px;
         word-break: break-all;
       }
     }
   }
+
+  textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #a7a7a7;
+    box-shadow: none;
+    border-radius: 0;
+    transition: all 0.2s ease-out;
+
+    &:hover {
+      border-bottom: 1px solid darkgrey;
+    }
+
+    &:focus {
+      border-bottom: 1px solid #41b883;
+    }
+
+    &::placeholder {
+      font-weight: 700;
+      text-align: center;
+    }
+  }
 }
 
+
 @keyframes blink {
-  from, to {
+
+  from,
+  to {
     filter: sepia(0);
   }
+
   50% {
     filter: sepia(0.5);
   }

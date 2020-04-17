@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useRef, useState, useEffect } from 'react';
 import {
-  Input, Affix, Icon, message, List, Popconfirm, Card, Tooltip,
+  Input, Affix, Icon, message, List, Popconfirm, Card, Tooltip, Button,
 } from 'antd';
 import QueueAnim from 'rc-queue-anim';
 import { useScroll } from 'react-use';
@@ -9,6 +9,7 @@ import { useScroll } from 'react-use';
 import { noop } from '../../tools';
 import * as db from '../../db';
 import { hasCorrespondingParser } from '../ParserResovler';
+import FavoriteDialog from '../Dialog/FavoriteDialog';
 
 import './Welcome.less';
 
@@ -69,13 +70,43 @@ export default ({
       });
   };
 
+  const onChangeTitle = (index) => {
+    const recent = recents[index];
+    const validator = (val) => {
+      if (val.length < 1) {
+        message.warn('标签不可为空哦～');
+        return false;
+      }
+      return true;
+    };
+
+    FavoriteDialog.show({
+      title: '修改链接',
+      value: recent.tags || [],
+      href: recent.value,
+    }, (val) => {
+      db.get('base', 'recents')
+        .then((dbRecents = []) => {
+          const target = dbRecents.find((r) => r.id === recent.id);
+          if (target) {
+            target.tags = val;
+          }
+          db.set('base', 'recents', dbRecents);
+        })
+        .finally(() => {
+          message.success('已保存');
+          updateRecents();
+        });
+    }, validator);
+  };
+
   const renderRecents = () => (
     <QueueAnim
       type={['right', 'left']}
       duration={[450, 380]}
       leaveReverse
     >
-      {recents.map((item) => (
+      {recents.map((item, index) => (
         <Card key={item.id} hoverable>
           <List.Item
             actions={[
@@ -91,7 +122,12 @@ export default ({
             ]}
           >
             <List.Item.Meta
-              title={item.label}
+              title={(
+                <div>
+                  <span>{item.tags ? item.tags.join(' | ') : ''}</span>
+                  <Button icon="edit" type="link" onClick={() => onChangeTitle(index)} />
+                </div>
+              )}
               description={item.value}
             />
           </List.Item>
@@ -112,7 +148,7 @@ export default ({
               autoSize
               onChange={(e) => handleChange(e.target.value)}
             />
-            <Tooltip placement="top" title="Shift + Meta + Comma 切换" mouseEnterDelay="0.8">
+            <Tooltip placement="top" title="Shift + Meta + Comma 切换" mouseEnterDelay={0.8}>
               <div className="go" onClick={handleEdit}>
                 <Icon type="arrow-right" />
               </div>

@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDebounce } from 'react-use';
 import copy from 'copy-to-clipboard';
 import {
-  Input, Button, message, Modal,
+  Input, Button, message,
 } from 'antd';
 import qrcode from 'qrcode';
 
+import FavoriteDialog from '../Dialog/FavoriteDialog';
 import * as db from '../../db';
 import { genUUID } from '../../tools';
 
@@ -15,8 +16,6 @@ export default ({
   href = '',
 }) => {
   const [imageData, setImageData] = useState('');
-  const [visible, setVisible] = useState(false);
-  const [label, setLabel] = useState('');
 
   useDebounce(() => {
     qrcode.toDataURL(href || 'Paste URL first', { margin: 2 })
@@ -24,30 +23,35 @@ export default ({
       .catch((err) => console.log(err));
   }, 500, [href]);
 
-  useEffect(() => {
-    if (!visible) setLabel('');
-  }, [visible]);
+  const handleCopy = () => {
+    copy(href);
+    message.success('已复制');
+  };
 
   const handleSave = () => {
-    if (label.trim() === '') {
-      message.warn('链接描述不可为空哦，给它起个名字吧！');
-    } else {
+    const validator = (val) => {
+      if (val.length < 1) {
+        message.warn('标签不可为空哦～');
+        return false;
+      }
+      return true;
+    };
+
+    FavoriteDialog.show({
+      title: '保存链接',
+      value: [],
+      href,
+    }, (val) => {
       db.get('base', 'recents')
         .then((recents = []) => db.set('base', 'recents', recents.concat({
-          label,
+          tags: val,
           value: href,
           id: genUUID(),
         })))
         .finally(() => {
-          message.success(`已保存：${label}`);
-          setVisible(false);
+          message.success('已保存');
         });
-    }
-  };
-
-  const handleCopy = () => {
-    copy(href);
-    message.success('已复制');
+    }, validator);
   };
 
   return (
@@ -62,7 +66,7 @@ export default ({
       <Button
         type="link"
         icon="save-fill"
-        onClick={() => setVisible(true)}
+        onClick={handleSave}
       >
         保存链接
       </Button>
@@ -73,21 +77,6 @@ export default ({
       >
         复制链接
       </Button>
-      <Modal
-        title="保存链接"
-        visible={visible}
-        onOk={handleSave}
-        onCancel={() => setVisible(false)}
-      >
-        <div className="link-desc">{href}</div>
-        <Input
-          autoFocus
-          required
-          placeholder="输入链接简要描述，方便记忆"
-          value={label}
-          onChange={(e) => setLabel(e.target.value)}
-        />
-      </Modal>
     </div>
   );
 };
