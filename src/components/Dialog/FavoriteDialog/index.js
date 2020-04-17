@@ -1,7 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Select } from 'antd';
 import { noop } from '../../../tools';
 import makeDirective from '../../../utils/makeDirective';
+import * as db from '../../../db';
+import { unique } from '../../../utils';
+
+const getAllTags = async () => {
+  const recents = await db.get('base', 'recents');
+  const tags = recents.reduce((ret, cur) => ret.concat(cur.tags), []);
+
+  return unique(tags);
+};
 
 
 const FavoriteDialog = ({
@@ -13,6 +22,7 @@ const FavoriteDialog = ({
 }) => {
   const [visible, setVisible] = useState(true);
   const [tags, setTags] = useState(value);
+  const [allTags, setAllTags] = useState([]);
 
   const handleSave = () => {
     const valid = validator(tags);
@@ -21,6 +31,10 @@ const FavoriteDialog = ({
       setVisible(false);
     }
   };
+
+  useEffect(() => {
+    getAllTags().then(setAllTags);
+  }, [tags]);
 
   return (
     <Modal
@@ -37,7 +51,7 @@ const FavoriteDialog = ({
         onChange={setTags}
         style={{ width: '100%' }}
       >
-        {['预发', '日常', '线上'].map((val) => (
+        {allTags.map((val) => (
           <Select.Option key={val} value={val}>{val}</Select.Option>
         ))}
       </Select>
