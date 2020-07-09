@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useKeyPress, useKey } from 'react-use';
+import qs from 'querystring';
 import x from 'classnames';
 import { Icon, message } from 'antd';
 import ParserResovler, { hasCorrespondingParser } from '../ParserResovler';
@@ -12,6 +13,7 @@ function App() {
   const [editMode, setEditMode] = useState(false);
   const [shiftKeyPressed] = useKeyPress('Shift');
   const [metaKeyPressed] = useKeyPress('Meta');
+
   useKey(',', () => {
     if (shiftKeyPressed && metaKeyPressed) {
       if (hasCorrespondingParser(uri)) {
@@ -30,6 +32,14 @@ function App() {
       setEditMode(true);
     }
   };
+
+  useEffect(() => {
+    const params = qs.parse(window.location.search.slice(1));
+    if (params.url) {
+      setURI(params.url);
+      setEditMode(true);
+    }
+  }, []);
 
   return (
     <div className="app-container">
