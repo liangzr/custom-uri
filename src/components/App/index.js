@@ -19,7 +19,7 @@ function App() {
       if (hasCorrespondingParser(uri)) {
         setEditMode(!editMode);
       } else {
-        message.warn('无法解析当前 URI');
+        message.warn('Unable to resolve current URI');
       }
     }
   }, {}, [shiftKeyPressed, metaKeyPressed, editMode]);

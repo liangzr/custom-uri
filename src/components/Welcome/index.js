@@ -59,129 +59,151 @@ export default ({
     if (hasCorrespondingParser(value)) {
       onChange(value, true);
     } else {
-      message.warn('无法解析当前 URI');
+      message.warn('Unable to resolve current URI')
     }
   };
 
   const handleDelete = (id) => {
     db.get('base', 'recents')
-      .then((data) => db.set('base', 'recents', data.filter((i) => i.id !== id)))
+      .then((data) =>
+        db.set(
+          'base',
+          'recents',
+          data.filter((i) => i.id !== id)
+        )
+      )
       .finally(() => {
-        updateRecents();
-      });
+        updateRecents()
+      })
   };
 
   const onChangeTitle = (index) => {
     const recent = recents[index];
     const validator = (val) => {
       if (val.length < 1) {
-        message.warn('标签不可为空哦～');
+        message.warn('Tags cannot be empty')
         return false;
       }
       return true;
     };
 
-    FavoriteDialog.show({
-      title: '修改链接',
-      value: recent.tags || [],
-      href: recent.value,
-    }, (val) => {
-      db.get('base', 'recents')
-        .then((dbRecents = []) => {
-          const target = dbRecents.find((r) => r.id === recent.id);
-          if (target) {
-            target.tags = val;
-          }
-          db.set('base', 'recents', dbRecents);
-        })
-        .finally(() => {
-          message.success('已保存');
-          updateRecents();
-        });
-    }, validator);
+    FavoriteDialog.show(
+      {
+        title: 'Modify URI',
+        value: recent.tags || [],
+        href: recent.value,
+      },
+      (val) => {
+        db.get('base', 'recents')
+          .then((dbRecents = []) => {
+            const target = dbRecents.find((r) => r.id === recent.id)
+            if (target) {
+              target.tags = val
+            }
+            db.set('base', 'recents', dbRecents)
+          })
+          .finally(() => {
+            message.success('Saved!')
+            updateRecents()
+          })
+      },
+      validator
+    )
   };
 
   const renderRecents = () => (
-    <QueueAnim
-      type={['right', 'left']}
-      duration={[250, 180]}
-      leaveReverse
-    >
+    <QueueAnim type={['right', 'left']} duration={[250, 180]} leaveReverse>
       {recents
-        .filter((r) => (!filterString || r.tags.some((t) => t.toLowerCase().includes(filterString.toLowerCase()))))
+        .filter(
+          (r) =>
+            !filterString ||
+            r.tags.some((t) =>
+              t.toLowerCase().includes(filterString.toLowerCase())
+            )
+        )
         .map((item, index) => (
           <Card key={item.id} hoverable>
             <List.Item
               actions={[
-                <a href="#" onClick={() => onChange(item.value, true)}>使用</a>,
+                <a href="#" onClick={() => onChange(item.value, true)}>
+                  Use
+                </a>,
                 <Popconfirm
-                  title="删除不可恢复，确定吗？"
+                  title="Deletion is irreversible, are you sure?"
                   onConfirm={() => handleDelete(item.id)}
-                  okText="确定"
-                  cancelText="取消"
+                  okText="OK"
+                  cancelText="Cancel"
                 >
-                  <a href="#">删除</a>
+                  <a href="#">Delete</a>
                 </Popconfirm>,
               ]}
             >
               <List.Item.Meta
-                title={(
+                title={
                   <div>
                     <span>{item.tags ? item.tags.sort().join(' | ') : ''}</span>
-                    <Button icon="edit" type="link" onClick={() => onChangeTitle(index)} />
+                    <Button
+                      icon="edit"
+                      type="link"
+                      onClick={() => onChangeTitle(index)}
+                    />
                   </div>
-              )}
+                }
                 description={item.value}
               />
             </List.Item>
           </Card>
         ))}
     </QueueAnim>
-  );
+  )
 
   const renderRecentHeader = () => (
-    <Row style={{
-      display: 'flex',
-      alignItems: 'flex-end',
-    }}
+    <Row
+      style={{
+        display: 'flex',
+        alignItems: 'flex-end',
+      }}
     >
-      <Col span={10}>收藏链接</Col>
+      <Col span={10}>Favorites URI</Col>
       <Col span={14} style={{ textAlign: 'right' }}>
         <Input.Search
-          placeholder="过滤标签"
+          placeholder="Filter Tags"
           onChange={(e) => setFilterString(e.target.value)}
           style={{ width: 200 }}
         />
       </Col>
     </Row>
-  );
+  )
 
   return (
     <div className="welcome-container" ref={container}>
       <div className="content">
-        <h1 style={{ opacity: computeOpacity(y) }}>URI 生成工具</h1>
+        <h1 style={{ opacity: computeOpacity(y) }}>URI Generation Tool</h1>
         <Affix offsetTop={20} target={() => container.current}>
           <div className="input">
             <Input.TextArea
-              placeholder="输入你的 URI 或粘贴至此处"
+              placeholder="Type your URI or paste here"
               value={value}
               autoSize
               onChange={(e) => handleChange(e.target.value)}
             />
-            <Tooltip placement="top" title="Shift + Meta + Comma 切换" mouseEnterDelay={0.8}>
+            <Tooltip
+              placement="top"
+              title="Shift + Meta + Comma to switch panel"
+              mouseEnterDelay={0.8}
+            >
               <div className="go" onClick={handleEdit}>
                 <Icon type="arrow-right" />
               </div>
             </Tooltip>
           </div>
         </Affix>
-        {recents.length > 0
-        && (
-        <List className="recent" header={renderRecentHeader()}>
-          {renderRecents()}
-        </List>
+        {recents.length > 0 && (
+          <List className="recent" header={renderRecentHeader()}>
+            {renderRecents()}
+          </List>
         )}
       </div>
     </div>
-  );
+  )
 };

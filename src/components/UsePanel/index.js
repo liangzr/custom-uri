@@ -25,33 +25,41 @@ export default ({
 
   const handleCopy = () => {
     copy(href);
-    message.success('已复制');
+    message.success('Copied!');
   };
 
   const handleSave = () => {
     const validator = (val) => {
       if (val.length < 1) {
-        message.warn('标签不可为空哦～');
+        message.warn('Tags cannot be empty');
         return false;
       }
       return true;
     };
 
-    FavoriteDialog.show({
-      title: '保存链接',
-      value: [],
-      href,
-    }, (val) => {
-      db.get('base', 'recents')
-        .then((recents = []) => db.set('base', 'recents', recents.concat({
-          tags: val,
-          value: href,
-          id: genUUID(),
-        })))
-        .finally(() => {
-          message.success('已保存');
-        });
-    }, validator);
+    FavoriteDialog.show(
+      {
+        title: 'Save URI',
+        value: [],
+        href,
+      },
+      (val) => {
+        db.get('base', 'recents')
+          .then((recents = []) => db.set(
+            'base',
+            'recents',
+            recents.concat({
+              tags: val,
+              value: href,
+              id: genUUID(),
+            }),
+          ))
+          .finally(() => {
+            message.success('Saved!');
+          });
+      },
+      validator,
+    );
   };
 
   return (
@@ -63,19 +71,11 @@ export default ({
           maxRows: 4,
         }}
       />
-      <Button
-        type="link"
-        icon="save-fill"
-        onClick={handleSave}
-      >
-        保存链接
+      <Button type="link" icon="save-fill" onClick={handleSave}>
+        Save URI
       </Button>
-      <Button
-        type="link"
-        icon="copy"
-        onClick={handleCopy}
-      >
-        复制链接
+      <Button type="link" icon="copy" onClick={handleCopy}>
+        Copy URI
       </Button>
     </div>
   );

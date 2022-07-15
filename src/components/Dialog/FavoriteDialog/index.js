@@ -12,11 +12,10 @@ const getAllTags = async () => {
   return unique(tags);
 };
 
-
 const FavoriteDialog = ({
   value = [],
   href = '',
-  title = '编辑链接',
+  title = 'Edit URI',
   cb = noop,
   validator = noop,
 }) => {
@@ -47,12 +46,14 @@ const FavoriteDialog = ({
       <Select
         mode="tags"
         value={tags}
-        placeholder="输入标签，方便辨别"
+        placeholder="Type tags..."
         onChange={setTags}
         style={{ width: '100%' }}
       >
         {allTags.map((val) => (
-          <Select.Option key={val} value={val}>{val}</Select.Option>
+          <Select.Option key={val} value={val}>
+            {val}
+          </Select.Option>
         ))}
       </Select>
     </Modal>

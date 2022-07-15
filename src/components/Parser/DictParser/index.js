@@ -50,7 +50,6 @@ const DictParser = React.memo(({
       );
     }
     return (
-
       <Row key={index} className="dict-parser-item">
         <Col offset={1} span={5}>
           <Input
@@ -69,8 +68,14 @@ const DictParser = React.memo(({
             addonAfter={addonAfter}
           />
         </Col>
-        <div className="delete" title="删除" onClick={() => handleChange('all', index)}>
-          <span role="img" aria-label="delete">🛑</span>
+        <div
+          className="delete"
+          title="Delete"
+          onClick={() => handleChange('all', index)}
+        >
+          <span role="img" aria-label="delete">
+            🛑
+          </span>
         </div>
       </Row>
     );
@@ -91,15 +96,17 @@ const DictParser = React.memo(({
         {dictList.map(renderItem)}
         <Row>
           <Col offset={1} span={23} style={{ textAlign: 'left' }}>
-            <Button type="link" onClick={handleAddDict}>添加参数</Button>
+            <Button type="link" onClick={handleAddDict}>
+              Add Parameter
+            </Button>
           </Col>
         </Row>
       </Card>
       {nextKey && (
-      <ParserResovler
-        value={findValue(nextKey)}
-        onChange={(v) => handleChange('value', findIndex(nextKey), v)}
-      />
+        <ParserResovler
+          value={findValue(nextKey)}
+          onChange={(v) => handleChange('value', findIndex(nextKey), v)}
+        />
       )}
     </div>
   );
