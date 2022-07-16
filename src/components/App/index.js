@@ -41,6 +41,14 @@ function App() {
     }
   }, [])
 
+  useEffect(() => {
+    if (uri) {
+      window.history.replaceState(null, '', `/?url=${encodeURIComponent(uri)}`)
+    } else {
+      window.history.replaceState(null, '', '')
+    }
+  }, [uri])
+
   return (
     <div className="app-container">
       <Welcome value={uri} onChange={handleChange} mode={editMode} />
