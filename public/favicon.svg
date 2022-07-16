@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="117px" height="110px"><svg width="117px" height="110px" viewBox="0 0 117 110" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>logo</title>
+    <g id="SvgjsG1003" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="SvgjsG1002">
+            <rect id="SvgjsRect1001" fill="#000000" x="7" y="0" width="110" height="110" rx="20"></rect>
+            <text id="SvgjsText1000" font-family="BMJUAOTF, BM Jua" font-size="100" font-weight="normal" letter-spacing="-5" fill="#FCFCFC" svgjs:data="{&quot;leading&quot;:&quot;1.3&quot;}">
+                <tspan x="13.575" y="85" svgjs:data="{&quot;leading&quot;:&quot;1.3&quot;}">:</tspan>
+                <tspan x="31.875" y="85" letter-spacing="-15.625" svgjs:data="{&quot;leading&quot;:&quot;1.3&quot;}">//</tspan>
+            </text>
+        </g>
+    </g>
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: invert(100%); } }
+</style></svg>
