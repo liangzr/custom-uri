@@ -1,7 +1,7 @@
-import React from 'react';
-import { Typography } from 'antd';
+import React from 'react'
+import { Typography } from 'antd'
 
-const { Title, Paragraph, Text } = Typography;
+const { Title, Paragraph, Text } = Typography
 
 export default () => (
   <Typography>
@@ -14,7 +14,8 @@ export default () => (
     </Paragraph>
     <Title level={2}>认识 URI</Title>
     <Paragraph>
-      URI（Uniform Resource Identifier）即<Text strong>统一资源标识符</Text>，用于标识某一互联网资源名称的字符串，我们常见到的 URL 语法遵守了 URI 的规范，是它的子类。它通常由以下这五个部分组成
+      URI（Uniform Resource Identifier）即<Text strong>统一资源标识符</Text>，
+      用于标识某一互联网资源名称的字符串，我们常见到的 URL 语法遵守了 URI 的规范，是它的子类。它通常由以下这五个部分组成
       <pre>
         URI = scheme:[//authority]path[?query][#fragment]
       </pre>
@@ -29,4 +30,4 @@ export default () => (
       <img style={{ width: '100%' }} src="https://gw.alipayobjects.com/zos/antfincdn/W4GKw52%24Uh/60446036-88ed-4c71-8cdb-2ab52acfb2df.png" alt="" />
     </Paragraph>
   </Typography>
-);
+)

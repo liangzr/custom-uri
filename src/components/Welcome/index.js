@@ -1,125 +1,124 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react'
 import {
-  Input, Affix, Icon, message, List, Popconfirm, Card, Tooltip, Button, Row, Col,
-} from 'antd';
-import QueueAnim from 'rc-queue-anim';
-import { useScroll } from 'react-use';
+  Input,
+  Affix,
+  Icon,
+  message,
+  List,
+  Popconfirm,
+  Card,
+  Tooltip,
+  Button,
+  Row,
+  Col,
+} from 'antd'
+import QueueAnim from 'rc-queue-anim'
+import { useScroll } from 'react-use'
 
-import { noop } from '../../tools';
-import * as db from '../../db';
-import { hasCorrespondingParser } from '../ParserResovler';
-import FavoriteDialog from '../Dialog/FavoriteDialog';
+import { noop } from '../../tools'
+import * as db from '../../db'
+import { hasCorrespondingParser } from '../ParserResolver'
+import FavoriteDialog from '../Dialog/FavoriteDialog'
 
-import './Welcome.less';
+import './Welcome.less'
 
 const breakChange = (prev, next) => {
-  const prevLength = prev.length;
-  const nextLength = next.length;
+  const prevLength = prev.length
+  const nextLength = next.length
   if (Math.abs(prevLength - nextLength) > 10 && nextLength > 0) {
-    return true;
+    return true
   }
 
-  return false;
-};
+  return false
+}
 
 const computeOpacity = (y) => {
-  const height = 150;
-  return y > height
-    ? 0
-    : (height - y) / height;
-};
+  const height = 150
+  return y > height ? 0 : (height - y) / height
+}
 
-export default ({
-  value = '',
-  mode = false,
-  onChange = noop,
-}) => {
-  const container = useRef(null);
-  const [recents, setRecents] = useState([]);
-  const [filterString, setFilterString] = useState('');
-  const { y } = useScroll(container);
+export default ({ value = '', mode = false, onChange = noop }) => {
+  const container = useRef(null)
+  const [recent, setRecent] = useState([])
+  const [filterString, setFilterString] = useState('')
+  const { y } = useScroll(container)
 
-  const updateRecents = async () => {
-    const ret = await db.get('base', 'recents');
-    setRecents(ret.reverse());
-  };
+  const updateRecent = async () => {
+    const ret = await db.get('base', 'recent')
+    setRecent(ret.reverse())
+  }
 
   useEffect(() => {
     if (!mode) {
-      updateRecents();
+      updateRecent()
     }
-  }, [mode]);
+  }, [mode])
 
   const handleChange = (val) => {
-    onChange(val, breakChange(value, val));
-  };
+    onChange(val, breakChange(value, val))
+  }
 
   const handleEdit = () => {
     if (hasCorrespondingParser(value)) {
-      onChange(value, true);
+      onChange(value, true)
     } else {
       message.warn('Unable to resolve current URI')
     }
-  };
+  }
 
   const handleDelete = (id) => {
-    db.get('base', 'recents')
-      .then((data) =>
-        db.set(
-          'base',
-          'recents',
-          data.filter((i) => i.id !== id)
-        )
-      )
+    db.get('base', 'recent')
+      .then((data) => db.set(
+        'base',
+        'recent',
+        data.filter((i) => i.id !== id),
+      ))
       .finally(() => {
-        updateRecents()
+        updateRecent()
       })
-  };
+  }
 
   const onChangeTitle = (index) => {
-    const recent = recents[index];
+    const savedItem = recent[index]
     const validator = (val) => {
       if (val.length < 1) {
         message.warn('Tags cannot be empty')
-        return false;
+        return false
       }
-      return true;
-    };
+      return true
+    }
 
     FavoriteDialog.show(
       {
         title: 'Modify URI',
-        value: recent.tags || [],
-        href: recent.value,
+        value: savedItem.tags || [],
+        href: savedItem.value,
       },
       (val) => {
-        db.get('base', 'recents')
-          .then((dbRecents = []) => {
-            const target = dbRecents.find((r) => r.id === recent.id)
+        db.get('base', 'recent')
+          .then((dbRecent = []) => {
+            const target = dbRecent.find((r) => r.id === savedItem.id)
             if (target) {
               target.tags = val
             }
-            db.set('base', 'recents', dbRecents)
+            db.set('base', 'recent', dbRecent)
           })
           .finally(() => {
             message.success('Saved!')
-            updateRecents()
+            updateRecent()
           })
       },
-      validator
+      validator,
     )
-  };
+  }
 
-  const renderRecents = () => (
+  const renderRecent = () => (
     <QueueAnim type={['right', 'left']} duration={[250, 180]} leaveReverse>
-      {recents
+      {recent
         .filter(
-          (r) =>
-            !filterString ||
-            r.tags.some((t) =>
-              t.toLowerCase().includes(filterString.toLowerCase())
-            )
+          (r) => !filterString
+            || r.tags.some((t) => t.toLowerCase().includes(filterString.toLowerCase())),
         )
         .map((item, index) => (
           <Card key={item.id} hoverable>
@@ -139,7 +138,7 @@ export default ({
               ]}
             >
               <List.Item.Meta
-                title={
+                title={(
                   <div>
                     <span>{item.tags ? item.tags.sort().join(' | ') : ''}</span>
                     <Button
@@ -148,7 +147,7 @@ export default ({
                       onClick={() => onChangeTitle(index)}
                     />
                   </div>
-                }
+                )}
                 description={item.value}
               />
             </List.Item>
@@ -198,12 +197,12 @@ export default ({
             </Tooltip>
           </div>
         </Affix>
-        {recents.length > 0 && (
+        {recent.length > 0 && (
           <List className="recent" header={renderRecentHeader()}>
-            {renderRecents()}
+            {renderRecent()}
           </List>
         )}
       </div>
     </div>
   )
-};
+}

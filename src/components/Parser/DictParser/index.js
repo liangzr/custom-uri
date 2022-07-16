@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import x from 'classnames';
+import React, { useState } from 'react'
+import x from 'classnames'
 import {
   Card, Row, Col, Button, Input,
-} from 'antd';
-import ParserResovler, { hasCorrespondingParser } from '../../ParserResovler';
-import { noop } from '../../../tools';
+} from 'antd'
+import ParserResolver, { hasCorrespondingParser } from '../../ParserResolver'
+import { noop } from '../../../tools'
 
-import './DictParser.less';
+import './DictParser.less'
 
 const DictParser = React.memo(({
   value,
@@ -17,37 +17,37 @@ const DictParser = React.memo(({
     className = '',
   } = {},
 }) => {
-  const [nextKey, setNextKey] = useState('');
+  const [nextKey, setNextKey] = useState('')
 
-  const dictList = parser(value);
+  const dictList = parser(value)
 
   const handleChange = (type, index, val) => {
-    const nextList = [...dictList];
-    const target = [...dictList[index]];
-    const modifyKey = type === 'key' ? 0 : 1;
-    target[modifyKey] = val;
-    nextList[index] = type === 'all' ? [] : target;
+    const nextList = [...dictList]
+    const target = [...dictList[index]]
+    const modifyKey = type === 'key' ? 0 : 1
+    target[modifyKey] = val
+    nextList[index] = type === 'all' ? [] : target
 
-    onChange(formatter(nextList));
-  };
+    onChange(formatter(nextList))
+  }
 
   const handleAddDict = () => {
-    const nextList = [...dictList];
-    nextList.push(['key', '']);
+    const nextList = [...dictList]
+    nextList.push(['key', ''])
 
-    onChange(formatter(nextList));
-  };
+    onChange(formatter(nextList))
+  }
 
   const renderItem = (item, index) => {
-    const [key, val] = item;
-    let addonAfter = null;
+    const [key, val] = item
+    let addonAfter = null
 
     if (hasCorrespondingParser(val)) {
       addonAfter = (
         <span onClick={() => setNextKey(key)}>
           Parse
         </span>
-      );
+      )
     }
     return (
       <Row key={index} className="dict-parser-item">
@@ -78,17 +78,17 @@ const DictParser = React.memo(({
           </span>
         </div>
       </Row>
-    );
-  };
+    )
+  }
 
   const findValue = (key) => {
-    const ret = dictList.find((item) => item[0] === key);
-    if (ret) return ret[1];
+    const ret = dictList.find((item) => item[0] === key)
+    if (ret) return ret[1]
 
-    return '';
-  };
+    return ''
+  }
 
-  const findIndex = (key) => dictList.findIndex((item) => item[0] === key);
+  const findIndex = (key) => dictList.findIndex((item) => item[0] === key)
 
   return (
     <div>
@@ -103,13 +103,13 @@ const DictParser = React.memo(({
         </Row>
       </Card>
       {nextKey && (
-        <ParserResovler
+        <ParserResolver
           value={findValue(nextKey)}
           onChange={(v) => handleChange('value', findIndex(nextKey), v)}
         />
       )}
     </div>
-  );
-});
+  )
+})
 
-export default DictParser;
+export default DictParser

@@ -21,7 +21,8 @@
     "react-monaco-editor": "^0.34.0",
     "react-scripts": "3.4.0",
     "react-use": "^13.27.0",
-    "url": "^0.11.0"
+    "url": "^0.11.0",
+    "uuid": "^8.3.2"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -29,9 +30,6 @@
     "test": "react-app-rewired test",
     "fix": "eslint src --fix",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [

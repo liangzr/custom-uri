@@ -32,6 +32,7 @@ specifiers:
   react-scripts: 3.4.0
   react-use: ^13.27.0
   url: ^0.11.0
+  uuid: ^8.3.2
   webpack-bundle-analyzer: ^3.6.1
 
 dependencies:
@@ -54,6 +55,7 @@ dependencies:
   react-scripts: 3.4.0_react@16.14.0
   react-use: 13.27.1_wcqkhtmu7mswc6yz4uyexck3ty
   url: 0.11.0
+  uuid: 8.3.2
 
 devDependencies:
   '@testing-library/jest-dom': 4.2.4
@@ -13272,6 +13274,11 @@ packages:
   /uuid/3.4.0:
     resolution: {integrity: sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==}
     deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+    hasBin: true
+    dev: false
+
+  /uuid/8.3.2:
+    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
     dev: false
 

@@ -1,48 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   Row, Col, Input, Card,
-} from 'antd';
+} from 'antd'
 import {
   parseURI, formatURI,
-} from '../../../tools';
-import ParserResovler from '../../ParserResovler';
+} from '../../../tools'
+import ParserResolver from '../../ParserResolver'
 
-import './URIParser.less';
+import './URIParser.less'
 
 const URI = React.memo(({ value, onChange }) => {
-  const uri = parseURI(value);
-  const [nextKey, setNextKey] = useState(uri.query ? 'query' : '');
+  const uri = parseURI(value)
+  const [nextKey, setNextKey] = useState(uri.query ? 'query' : '')
 
   const handleChange = (key, val) => {
-    const nextURI = { ...uri };
-    nextURI[key] = val;
+    const nextURI = { ...uri }
+    nextURI[key] = val
     if (key === 'protocol' && val === '') {
-      nextURI.host = '';
+      nextURI.host = ''
     }
-    onChange(formatURI(nextURI));
-  };
+    onChange(formatURI(nextURI))
+  }
 
   const renderItem = (key, val) => {
-    const isHostKey = key === 'host';
-    const isAuthKey = key === 'auth';
-    const isSearchKey = key === 'query';
-    const isHashKey = key === 'hash';
-    const hasProtocol = !!uri.protocol;
-    const hasHost = !!uri.host;
+    const isHostKey = key === 'host'
+    const isAuthKey = key === 'auth'
+    const isSearchKey = key === 'query'
+    const isHashKey = key === 'hash'
+    const hasProtocol = !!uri.protocol
+    const hasHost = !!uri.host
 
-    let span = 9;
-    let addonAfter = null;
-    let placeholder = '';
-    const disabled = (isHostKey || isAuthKey) && !hasProtocol;
+    let span = 9
+    let addonAfter = null
+    let placeholder = ''
+    const disabled = (isHostKey || isAuthKey) && !hasProtocol
 
     if (disabled) {
-      placeholder = 'Cannot be edited when protocol is empty';
+      placeholder = 'Cannot be edited when protocol is empty'
     } else if (!hasHost && isAuthKey) {
-      placeholder = 'Cannot be edited when host is empty';
+      placeholder = 'Cannot be edited when host is empty'
     }
 
     if (isSearchKey || isHashKey) {
-      span = 21;
+      span = 21
     }
 
     if (isSearchKey) {
@@ -50,7 +50,7 @@ const URI = React.memo(({ value, onChange }) => {
         <span onClick={() => setNextKey(key)}>
           Parse
         </span>
-      );
+      )
     }
 
     return (
@@ -69,8 +69,8 @@ const URI = React.memo(({ value, onChange }) => {
           />
         </Col>
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <div>
@@ -80,10 +80,10 @@ const URI = React.memo(({ value, onChange }) => {
         </Row>
       </Card>
       {nextKey && (
-      <ParserResovler value={uri[nextKey]} onChange={(v) => handleChange(nextKey, v)} />
+      <ParserResolver value={uri[nextKey]} onChange={(v) => handleChange(nextKey, v)} />
       )}
     </div>
-  );
-});
+  )
+})
 
-export default URI;
+export default URI

@@ -1,41 +1,42 @@
-import React, { useState } from 'react';
-import { useDebounce } from 'react-use';
-import copy from 'copy-to-clipboard';
-import {
-  Input, Button, message,
-} from 'antd';
-import qrcode from 'qrcode';
+import React, { useState } from 'react'
+import { useDebounce } from 'react-use'
+import copy from 'copy-to-clipboard'
+import { Input, Button, message } from 'antd'
+import qrcode from 'qrcode'
 
-import FavoriteDialog from '../Dialog/FavoriteDialog';
-import * as db from '../../db';
-import { genUUID } from '../../tools';
+import { v4 as uuid } from 'uuid'
+import FavoriteDialog from '../Dialog/FavoriteDialog'
+import * as db from '../../db'
 
-import './UsePanel.less';
+import './UsePanel.less'
 
-export default ({
-  href = '',
-}) => {
-  const [imageData, setImageData] = useState('');
+export default ({ href = '' }) => {
+  const [imageData, setImageData] = useState('')
 
-  useDebounce(() => {
-    qrcode.toDataURL(href || 'Paste URL first', { margin: 2 })
-      .then((url) => setImageData(url))
-      .catch((err) => console.log(err));
-  }, 500, [href]);
+  useDebounce(
+    () => {
+      qrcode
+        .toDataURL(href || 'Paste URL first', { margin: 2 })
+        .then((url) => setImageData(url))
+        .catch((err) => console.log(err))
+    },
+    500,
+    [href],
+  )
 
   const handleCopy = () => {
-    copy(href);
-    message.success('Copied!');
-  };
+    copy(href)
+    message.success('Copied!')
+  }
 
   const handleSave = () => {
     const validator = (val) => {
       if (val.length < 1) {
-        message.warn('Tags cannot be empty');
-        return false;
+        message.warn('Tags cannot be empty')
+        return false
       }
-      return true;
-    };
+      return true
+    }
 
     FavoriteDialog.show(
       {
@@ -44,23 +45,23 @@ export default ({
         href,
       },
       (val) => {
-        db.get('base', 'recents')
-          .then((recents = []) => db.set(
+        db.get('base', 'recent')
+          .then((recent = []) => db.set(
             'base',
-            'recents',
-            recents.concat({
+            'recent',
+            recent.concat({
               tags: val,
               value: href,
-              id: genUUID(),
+              id: uuid(),
             }),
           ))
           .finally(() => {
-            message.success('Saved!');
-          });
+            message.success('Saved!')
+          })
       },
       validator,
-    );
-  };
+    )
+  }
 
   return (
     <div className="use-panel-wrapper">
@@ -78,5 +79,5 @@ export default ({
         Copy URI
       </Button>
     </div>
-  );
-};
+  )
+}

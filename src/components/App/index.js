@@ -1,51 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import { useKeyPress, useKey } from 'react-use';
-import qs from 'querystring';
-import x from 'classnames';
-import { Icon, message } from 'antd';
-import ParserResovler, { hasCorrespondingParser } from '../ParserResovler';
-import UsePanel from '../UsePanel';
-import Welcome from '../Welcome';
-import './App.less';
+import React, { useState, useEffect } from 'react'
+import { useKeyPress, useKey } from 'react-use'
+import qs from 'querystring'
+import x from 'classnames'
+import { Icon, message } from 'antd'
+import ParserResolver, { hasCorrespondingParser } from '../ParserResolver'
+import UsePanel from '../UsePanel'
+import Welcome from '../Welcome'
+import './App.less'
 
 function App() {
-  const [uri, setURI] = useState('');
-  const [editMode, setEditMode] = useState(false);
-  const [shiftKeyPressed] = useKeyPress('Shift');
-  const [metaKeyPressed] = useKeyPress('Meta');
+  const [uri, setURI] = useState('')
+  const [editMode, setEditMode] = useState(false)
+  const [shiftKeyPressed] = useKeyPress('Shift')
+  const [metaKeyPressed] = useKeyPress('Meta')
 
   useKey(',', () => {
     if (shiftKeyPressed && metaKeyPressed) {
       if (hasCorrespondingParser(uri)) {
-        setEditMode(!editMode);
+        setEditMode(!editMode)
       } else {
-        message.warn('Unable to resolve current URI');
+        message.warn('Unable to resolve current URI')
       }
     }
-  }, {}, [shiftKeyPressed, metaKeyPressed, editMode]);
+  }, {}, [shiftKeyPressed, metaKeyPressed, editMode])
 
-  const editModeClass = editMode ? '' : 'init';
+  const editModeClass = editMode ? '' : 'init'
 
   const handleChange = (val, breakChange) => {
-    setURI(val);
+    setURI(val)
     if (breakChange) {
-      setEditMode(true);
+      setEditMode(true)
     }
-  };
+  }
 
   useEffect(() => {
-    const params = qs.parse(window.location.search.slice(1));
+    const params = qs.parse(window.location.search.slice(1))
     if (params.url) {
-      setURI(params.url);
-      setEditMode(true);
+      setURI(params.url)
+      setEditMode(true)
     }
-  }, []);
+  }, [])
 
   return (
     <div className="app-container">
       <Welcome value={uri} onChange={handleChange} mode={editMode} />
       <main className={editModeClass}>
-        <ParserResovler value={uri} onChange={setURI} />
+        <ParserResolver value={uri} onChange={setURI} />
       </main>
       <aside className={editModeClass}>
         <UsePanel href={uri} />
@@ -54,7 +54,7 @@ function App() {
         <Icon type="api" />
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

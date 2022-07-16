@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, Select } from 'antd';
-import { noop } from '../../../tools';
-import makeDirective from '../../../utils/makeDirective';
-import * as db from '../../../db';
-import { unique } from '../../../utils';
+import React, { useState, useEffect } from 'react'
+import { Modal, Select } from 'antd'
+import { noop } from '../../../tools'
+import makeDirective from '../../../utils/makeDirective'
+import * as db from '../../../db'
+import { unique } from '../../../utils'
 
 const getAllTags = async () => {
-  const recents = await db.get('base', 'recents');
-  const tags = recents.reduce((ret, cur) => ret.concat(cur.tags), []);
+  const recent = await db.get('base', 'recent')
+  const tags = recent.reduce((ret, cur) => ret.concat(cur.tags), [])
 
-  return unique(tags);
-};
+  return unique(tags)
+}
 
 const FavoriteDialog = ({
   value = [],
@@ -19,21 +19,21 @@ const FavoriteDialog = ({
   cb = noop,
   validator = noop,
 }) => {
-  const [visible, setVisible] = useState(true);
-  const [tags, setTags] = useState(value);
-  const [allTags, setAllTags] = useState([]);
+  const [visible, setVisible] = useState(true)
+  const [tags, setTags] = useState(value)
+  const [allTags, setAllTags] = useState([])
 
   const handleSave = () => {
-    const valid = validator(tags);
+    const valid = validator(tags)
     if (valid) {
-      cb(tags);
-      setVisible(false);
+      cb(tags)
+      setVisible(false)
     }
-  };
+  }
 
   useEffect(() => {
-    getAllTags().then(setAllTags);
-  }, [tags]);
+    getAllTags().then(setAllTags)
+  }, [tags])
 
   return (
     <Modal
@@ -57,7 +57,7 @@ const FavoriteDialog = ({
         ))}
       </Select>
     </Modal>
-  );
-};
+  )
+}
 
-export default makeDirective(FavoriteDialog, 'favorite-dialog-wrapper');
+export default makeDirective(FavoriteDialog, 'favorite-dialog-wrapper')
