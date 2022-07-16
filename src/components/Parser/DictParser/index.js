@@ -91,7 +91,7 @@ const DictParser = React.memo(({
   const findIndex = (key) => dictList.findIndex((item) => item[0] === key)
 
   return (
-    <div>
+    <>
       <Card hoverable className={x('dict-parser-wrapper', className)}>
         {dictList.map(renderItem)}
         <Row>
@@ -108,7 +108,7 @@ const DictParser = React.memo(({
           onChange={(v) => handleChange('value', findIndex(nextKey), v)}
         />
       )}
-    </div>
+    </>
   )
 })
 

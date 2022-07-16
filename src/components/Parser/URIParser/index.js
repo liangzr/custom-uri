@@ -73,7 +73,7 @@ const URI = React.memo(({ value, onChange }) => {
   }
 
   return (
-    <div>
+    <>
       <Card hoverable className="uri-parser-wrapper" bordered={false}>
         <Row>
           {Object.keys(uri).map((key) => renderItem(key, uri[key]))}
@@ -82,7 +82,7 @@ const URI = React.memo(({ value, onChange }) => {
       {nextKey && (
       <ParserResolver value={uri[nextKey]} onChange={(v) => handleChange(nextKey, v)} />
       )}
-    </div>
+    </>
   )
 })
 
