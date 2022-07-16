@@ -51,7 +51,7 @@ function App() {
     if (uri) {
       window.history.replaceState(null, '', `/?url=${encodeURIComponent(uri)}`)
     } else {
-      window.history.replaceState(null, '', '')
+      window.history.replaceState(null, '', '/')
     }
   }, [uri])
 

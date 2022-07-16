@@ -45,10 +45,10 @@ export default ({ href = '' }) => {
         href,
       },
       (val) => {
-        db.get('base', 'recent')
+        db.get('base', 'recents')
           .then((recent = []) => db.set(
             'base',
-            'recent',
+            'recents',
             recent.concat({
               tags: val,
               value: href,

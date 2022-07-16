@@ -1,5 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useRef, useState, useEffect } from 'react'
+import React, {
+  useRef, useState, useEffect, useCallback, useMemo,
+} from 'react'
 import {
   Input,
   Affix,
@@ -44,48 +46,50 @@ export default ({ value = '', mode = false, onChange = noop }) => {
   const [filterString, setFilterString] = useState('')
   const { y } = useScroll(container)
 
-  const updateRecent = async () => {
-    const ret = await db.get('base', 'recent')
+  const updateRecent = useCallback(async () => {
+    const ret = await db.get('base', 'recents')
     setRecent(ret.reverse())
-  }
+  }, [])
 
   useEffect(() => {
     if (!mode) {
       updateRecent()
     }
-  }, [mode])
+  }, [mode, updateRecent])
 
-  const handleChange = (val) => {
+  const handleChange = useCallback((val) => {
     onChange(val, breakChange(value, val))
-  }
+  }, [onChange, value])
 
-  const handleEdit = () => {
+  const handleEdit = useCallback(() => {
     if (hasCorrespondingParser(value)) {
       onChange(value, true)
     } else {
       message.warn('Unable to resolve current URI')
     }
-  }
+  }, [onChange, value])
 
-  const handleDelete = (id) => {
-    db.get('base', 'recent')
-      .then((data) => db.set(
+  const handleDelete = useCallback(async (id) => {
+    try {
+      const data = await db.get('base', 'recents')
+      await db.set(
         'base',
-        'recent',
+        'recents',
         data.filter((i) => i.id !== id),
-      ))
-      .finally(() => {
-        updateRecent()
-      })
-  }
+      )
+    } finally {
+      updateRecent()
+    }
+  }, [updateRecent])
 
-  const onChangeTitle = (index) => {
+  const onChangeTitle = useCallback(async (index) => {
     const savedItem = recent[index]
     const validator = (val) => {
       if (val.length < 1) {
         message.warn('Tags cannot be empty')
         return false
       }
+
       return true
     }
 
@@ -95,25 +99,24 @@ export default ({ value = '', mode = false, onChange = noop }) => {
         value: savedItem.tags || [],
         href: savedItem.value,
       },
-      (val) => {
-        db.get('base', 'recent')
-          .then((dbRecent = []) => {
-            const target = dbRecent.find((r) => r.id === savedItem.id)
-            if (target) {
-              target.tags = val
-            }
-            db.set('base', 'recent', dbRecent)
-          })
-          .finally(() => {
-            message.success('Saved!')
-            updateRecent()
-          })
+      async (val) => {
+        try {
+          const dbRecent = (await db.get('base', 'recents')) || []
+          const target = dbRecent.find((r) => r.id === savedItem.id)
+          if (target) {
+            target.tags = val
+          }
+          await db.set('base', 'recents', dbRecent)
+        } finally {
+          message.success('Saved!')
+          updateRecent()
+        }
       },
       validator,
     )
-  }
+  }, [recent, updateRecent])
 
-  const renderRecent = () => (
+  const recentList = useMemo(() => (
     <QueueAnim type={['right', 'left']} duration={[250, 180]} leaveReverse>
       {recent
         .filter(
@@ -154,9 +157,9 @@ export default ({ value = '', mode = false, onChange = noop }) => {
           </Card>
         ))}
     </QueueAnim>
-  )
+  ), [filterString, handleDelete, onChange, onChangeTitle, recent])
 
-  const renderRecentHeader = () => (
+  const recentHeader = useMemo(() => (
     <Row
       style={{
         display: 'flex',
@@ -172,7 +175,7 @@ export default ({ value = '', mode = false, onChange = noop }) => {
         />
       </Col>
     </Row>
-  )
+  ), [])
 
   return (
     <div className="welcome-container" ref={container}>
@@ -198,8 +201,8 @@ export default ({ value = '', mode = false, onChange = noop }) => {
           </div>
         </Affix>
         {recent.length > 0 && (
-          <List className="recent" header={renderRecentHeader()}>
-            {renderRecent()}
+          <List className="recent" header={recentHeader}>
+            {recentList}
           </List>
         )}
       </div>

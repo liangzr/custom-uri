@@ -6,7 +6,7 @@ import * as db from '../../../db'
 import { unique } from '../../../utils'
 
 const getAllTags = async () => {
-  const recent = await db.get('base', 'recent')
+  const recent = await db.get('base', 'recents')
   const tags = recent.reduce((ret, cur) => ret.concat(cur.tags), [])
 
   return unique(tags)

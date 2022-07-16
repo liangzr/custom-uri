@@ -5,5 +5,8 @@
   "files.autoSaveDelay": 0,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  "cSpell.words": [
+    "Popconfirm"
+  ]
 }

@@ -5,6 +5,7 @@ import JSONParser from '../Parser/JSONParser'
 import { noop, safeParseJSON } from '../../tools'
 
 import './ParserResolver.less'
+import { Alert } from 'antd'
 
 const ParserTest = {
   URI: (v) => /^((\w+):\/\/|\/)/.test(v),
@@ -58,7 +59,7 @@ export default ({
       return <JSONParser {...props} />
     }
 
-    return <div>Not Implement Parser</div>
+    return <Alert type="warning" message="Oops! No supported parser" />
   }
 
   return (

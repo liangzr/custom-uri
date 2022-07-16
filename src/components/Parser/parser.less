@@ -13,7 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s;
+  transition: all 0.16s;
 }
 
 .parser-wrapper() {
@@ -25,13 +25,13 @@
   border: 2px solid;
   border-top-width: 2px;
   border-bottom-width: 2px;
-  border-left-width: 10px;
-  border-right-width: 0;
+  border-left-width: 0;
+  border-right-width: 2px;
 
   &:hover {
     border-color: gray;
 
-    &:after {
+    &::before {
       background-color: gray;
     }
   }
