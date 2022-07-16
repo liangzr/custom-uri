@@ -74,7 +74,7 @@ const URI = React.memo(({ value, onChange }) => {
 
   return (
     <div>
-      <Card hoverable className="uri-parser-wrapper">
+      <Card hoverable className="uri-parser-wrapper" bordered={false}>
         <Row>
           {Object.keys(uri).map((key) => renderItem(key, uri[key]))}
         </Row>

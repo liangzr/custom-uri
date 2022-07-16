@@ -65,7 +65,7 @@
       color: white;
       font-weight: 700;
       transition: all 0.3s ease;
-      animation: blink 5s infinite ease;
+      animation: blink 5s infinite linear alternate;
 
       &:active {
         filter: saturate(1.5);
@@ -127,13 +127,27 @@
 
 
 @keyframes blink {
-
-  from,
-  to {
-    filter: sepia(0);
+  from {
+    background-color: hsl(153, 48%, 49%);
   }
 
-  50% {
-    filter: sepia(0.5);
+  20% {
+    background-color: hsl(181, 48%, 49%);
+  }
+
+  40% {
+    background-color: hsl(220, 48%, 49%);
+  }
+
+  60% {
+    background-color: hsl(285, 48%, 49%);
+  }
+
+  80% {
+    background-color: hsl(346, 48%, 49%);
+  }
+
+  to {
+    background-color: hsl(23, 99%, 61%);
   }
 }

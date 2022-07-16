@@ -1,26 +1,49 @@
 .badge() {
-  position: absolute;
   content: 'Query';
-  right: 20px;
-  top: -5px;
-  font-size: 36px;
+  font-size: 16px;
+  writing-mode: vertical-lr;
+  text-align: center;
   font-weight: 700;
-  color: rgba(0, 0, 0, 0.12);
-  font-style: italic;
+  color: white;
   pointer-events: none;
   user-select: none;
-  ;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  z-index: 100;
+  text-transform: uppercase;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
 }
 
 .parser-wrapper() {
-	position: relative;
-	padding-top: 10px;
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid;
+  border-top-width: 2px;
+  border-bottom-width: 2px;
+  border-left-width: 10px;
+  border-right-width: 0;
+
+  &:hover {
+    border-color: gray;
+
+    &:after {
+      background-color: gray;
+    }
+  }
+
+
+  &>div {
+    flex: 1;
+  }
 }
 
 .parsed-highlight() {
   .parsed {
-		filter: sepia(1);
+    filter: sepia(1);
   }
 }

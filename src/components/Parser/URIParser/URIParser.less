@@ -1,9 +1,11 @@
 @import "../parser.less";
 @prefix: uri-parser;
+@theme-color: hsl(153, 48%, 49%);
 
 .@{prefix}-wrapper {
 	.parser-wrapper();
 	.parsed-highlight();
+	border-color: @theme-color;
 
 	.@{prefix}-item {
 		div:first-child {
@@ -15,5 +17,6 @@
 	&::after {
 		.badge();
 		content: 'URI';
+		background-color: @theme-color;
 	}
 }

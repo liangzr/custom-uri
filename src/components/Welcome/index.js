@@ -188,7 +188,7 @@ export default ({ value = '', mode = false, onChange = noop }) => {
             />
             <Tooltip
               placement="top"
-              title="Shift + Meta + Comma to switch panel"
+              title="Shift + Meta + Comma to switch"
               mouseEnterDelay={0.8}
             >
               <div className="go" onClick={handleEdit}>

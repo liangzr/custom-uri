@@ -1,13 +1,16 @@
 @import "../parser.less";
 
 @prefix: json-parser;
+@theme-color: hsl(13, 48%, 49%);
 
 .@{prefix}-wrapper {
 	.parser-wrapper();
+	border-color: @theme-color;
 
 	&::after {
 		.badge();
 		content: 'JSON';
+		background-color: @theme-color;
   }
   
   .editor {
