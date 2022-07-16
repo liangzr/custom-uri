@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useKeyPress, useKey } from 'react-use'
 import qs from 'querystring'
 import x from 'classnames'
@@ -14,31 +14,37 @@ function App() {
   const [shiftKeyPressed] = useKeyPress('Shift')
   const [metaKeyPressed] = useKeyPress('Meta')
 
+  const beforeSwitchMode = useCallback((next) => {
+    if (hasCorrespondingParser(next)) return true
+
+    message.warn('Unable to resolve current URI')
+    return false
+  }, [])
+
   useKey(',', () => {
-    if (shiftKeyPressed && metaKeyPressed) {
-      if (hasCorrespondingParser(uri)) {
-        setEditMode(!editMode)
-      } else {
-        message.warn('Unable to resolve current URI')
-      }
+    if (shiftKeyPressed && metaKeyPressed && beforeSwitchMode(uri)) {
+      setEditMode(!editMode)
     }
   }, {}, [shiftKeyPressed, metaKeyPressed, editMode])
 
   const editModeClass = editMode ? '' : 'init'
 
-  const handleChange = (val, breakChange) => {
+  const handleChange = useCallback((val, breakChange) => {
     setURI(val)
     if (breakChange) {
       setEditMode(true)
     }
-  }
+  }, [])
 
   useEffect(() => {
     const params = qs.parse(window.location.search.slice(1))
     if (params.url) {
       setURI(params.url)
-      setEditMode(true)
+      if (beforeSwitchMode(params.url)) {
+        setEditMode(true)
+      }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
